@@ -1,10 +1,16 @@
-# Crear entorno virtual
 
-```bash
-cd backend
-python -m venv .venv
-soruce .venv/bin/activate
-python -m pip install --upgrade pip
-pip install "fastapi[standard]"
-pip freeze > requirements.txt
-```
+
+Backend de Radar Financiero Perú.
+
+Framework: FastAPI.
+
+Endpoints actuales:
+
+GET /
+Devuelve información general de la API.
+
+GET /health
+Devuelve el estado básico del backend.
+
+Ejecución local:
+El backend se ejecuta desde la carpeta backend con el entorno virtual activo.
