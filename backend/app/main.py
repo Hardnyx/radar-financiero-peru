@@ -1,9 +1,13 @@
 from fastapi import FastAPI, HTTPException
 
-app = FastAPI()
+app = FastAPI(
+    title="Radar Financiero Perú API",
+    description="API para consultar información macroeconómica, financiera y regulatoria de fuentes públicas peruanas.",
+    version="0.1.0"
+)
 
-series = {
-    "bcrp-policy-rate" : {
+ECONOMIC_SERIES = {
+    "bcrp-policy-rate": {
         "code": "bcrp-policy-rate",
         "name": "Tasa de referencia BCRP",
         "source": "BCRP",
@@ -11,7 +15,7 @@ series = {
         "unit": "percent",
         "description": "Tasa de política monetaria del Banco Central de Reserva del Perú."
     },
-    "exchange-rate" : {
+    "exchange-rate": {
         "code": "exchange-rate",
         "name": "Tipo de cambio",
         "source": "BCRP",
@@ -29,7 +33,7 @@ series = {
     }
 }
 
-@app.get("/")
+@app.get("/", tags = ["System"])
 async def root():
     return {
         "status": "ok",
@@ -38,21 +42,25 @@ async def root():
     }
 
 
-@app.get("/health")
+@app.get("/health", tags = ["System"])
 async def health_check():
     return {
         "status": "ok"
     }
 
-@app.get("/api/series")
-async def list_available_series():
+@app.get("/api/series", tags=["Economic Series"])
+async def list_economic_series():
     return {
-        "series": list(series.values())
+        "total": len(ECONOMIC_SERIES),
+        "series": list(ECONOMIC_SERIES.values())
     }
 
-@app.get("/api/series/{code}")
-async def get_series_by_code(code: str):
-    if code in series:
-        return series[code]
-    else:
-        raise HTTPException(status_code=404, detail= "Economic series not found")
+@app.get("/api/series/{code}", tags=["Economic Series"])
+async def get_economic_series_by_code(code: str):
+    if code in ECONOMIC_SERIES:
+        return ECONOMIC_SERIES[code]
+    
+    raise HTTPException(
+        status_code=404,
+        detail="Economic series not found"
+    )
