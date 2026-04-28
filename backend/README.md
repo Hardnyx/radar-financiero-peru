@@ -1,5 +1,3 @@
-
-
 Backend de Radar Financiero Perú.
 
 Framework: FastAPI.
@@ -12,5 +10,17 @@ Devuelve información general de la API.
 GET /health
 Devuelve el estado básico del backend.
 
-Ejecución local:
-El backend se ejecuta desde la carpeta backend con el entorno virtual activo.
+series
+Diccionario temporal con la información de las series.
+
+GET /api/series
+Devuelve las claves disponibles del diccionario.
+
+GET /api/series/{code}
+Busca una clave específica dentro del diccionario.
+
+Si existe:
+    devuelve la serie.
+
+Si no existe:
+    devuelve 404.
